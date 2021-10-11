@@ -24,138 +24,138 @@
 		ori $t3, $zero, 3			# atribui 3 a t3
 		
 		# imprimindo a primeira parte
-		la $a0, string				#carrega o end. de string
-		jal print				#chama a subrotina print
+		la $a0, string				# carrega o end. de string
+		jal print					# chama a subrotina print
 		
-		#imprimindos as opcoes
+		# imprimindos as opcoes
 		la $a0, options
 		jal print
 		
 		la $a0, type_it
 		jal print
 		
-		#lendo o valor das opcoes
+		# lendo o valor das opcoes
 		jal read
 		move $t0, $v0
 		
-		#verificando se eh opcao valida
+		# verificando se eh opcao valida
 		slt $t4, $t0, $zero			# se valor recebido é menor que 0
 		beq $t4, $t1, main			# se t4 = 1
 		
 		slti $t4, $t0, 4			# se valor recebido é maior que 3
-		beq $t4, $zero, main			# se t4 < 4
+		beq $t4, $zero, main		# se t4 < 4
 		
 		
-		#verificando opcoes
-		beq $t0, $zero, finish			#finaliza se escolher 0
-		beq $t0, $t1, circle			#opcao 1
-		beq $t0, $t2, triangle			#opcao 2
-		beq $t0, $t3, rectangle			#opcao 3
+		# verificando opcoes
+		beq $t0, $zero, finish		# finaliza se escolher 0
+		beq $t0, $t1, circle		# opcao 1
+		beq $t0, $t2, triangle		# opcao 2
+		beq $t0, $t3, rectangle		# opcao 3
 		
 		
-	print:						#funcao para imprimir string
-		li $v0, 4				#carregamento imediato de 4 -> string
+	print:						# funcao para imprimir string
+		li $v0, 4				# carregamento imediato de 4 -> string
 		syscall
 		jr $ra
 	
-	print_i: 					#funcao para imprimir inteiro
+	print_i: 					# funcao para imprimir inteiro
 		li $v0, 1
 		syscall
 		jr $ra
 	
-	read:						#funcao para ler inteiro
+	read:						# funcao para ler inteiro
 		li $v0, 5
 		syscall
 		jr $ra
 
 	circle:
-							# circunferência (π*r^2)
-		ori $t2, 3				#atribuindo 3 a t2 para usar na operação
+								# circunferência (π*r^2)
+		ori $t2, 3				# atribuindo 3 a t2 para usar na operação
 		
-		la $a0, cir_op				#carregando o end. "Digite o valor do raio: "
+		la $a0, cir_op			# carregando o end. "Digite o valor do raio: "
 		jal print
 		
-		jal read				#chamando a func p ler 
-		move $t0, $v0				#setando t0 com o valor de retorno da read
+		jal read				# chamando a func p ler 
+		move $t0, $v0			# setando t0 com o valor de retorno da read
 		
-		multu $t0, $t0				# valorLido * valorLido
+		multu $t0, $t0			# valorLido * valorLido
 		mflo $t0				# recebe o valor multiplicado
 		
-		multu $t0, $t2				#multiplica valorLido^2 * 3
+		multu $t0, $t2			# multiplica valorLido^2 * 3
 		mflo $t2
 		
-		la $a0, p_area				#carrega "\nA area e: "
+		la $a0, p_area			# carrega "\nA area e: "
 		jal print
 		
-		move $a0, $t2				#set como parametro o valor da operação
+		move $a0, $t2			# set como parametro o valor da operação
 		jal print_i
 
-		la $a0, jump_line			#printa um pulo de linha
+		la $a0, jump_line		# printa um pulo de linha
 		jal print
 
-		jal main				#volta pra main
+		jal main				# volta pra main
 	
 	triangle:
 	
-		ori $t2, 2
+		ori $t2, 2				# atribue 2 a t2 para usar na operação
 		
-		la $a0, a_op
-		jal print
+		la $a0, a_op			# carregando o end. "Digite o valor da altura: "
+		jal print				# chamando a func p imprimir
 		
-		jal read
-		move $t0, $v0
+		jal read				# chamando a func p ler
+		move $t0, $v0			# setando t0 com o valor de retorno da read
 		
-		la $a0, b_op
-		jal print
+		la $a0, b_op			# carregando o end. "Digite o valor da base: "
+		jal print				# chamando a func p imprimir
 		
-		jal read
-		move $t1, $v0
+		jal read				# chamando a func p ler
+		move $t1, $v0			# setando t1 com o valor de retorno da read
 		
-		multu $t0, $t1
-		mflo $t0
+		multu $t0, $t1			# multiplica t0 * t1
+		mflo $t0				# recebe o valor multiplicado
 		
-		div $t0, $t2
-		mflo $t2
+		div $t0, $t2			# divide t0 / 2
+		mflo $t2				# recebe o valor dividido
 		
-		la $a0, p_area
-		jal print
+		la $a0, p_area			# carrega "\nA area e: "
+		jal print				# chamando a func p imprimir
 		
-		move $a0, $t2
-		jal print_i
+		move $a0, $t2			# set como parametro o valor da operação
+		jal print_i				# chamando a func p imprimir
 
-		la $a0, jump_line
+		la $a0, jump_line		# printa um pulo de linha
 		jal print
 
-		jal main
+		jal main				# volta pra main
 
 	rectangle:
 	
-		la $a0, a_op
-		jal print
+		la $a0, a_op			# carregando o end. "Digite o valor da altura: "
+		jal print				# chamando a func p imprimir
 		
-		jal read
-		move $t0, $v0
+		jal read				# chamando a func p ler
+		move $t0, $v0			# setando t0 com o valor de retorno da read
 		
-		la $a0, b_op
-		jal print
+		la $a0, b_op			# carregando o end. "Digite o valor da base: "
+		jal print				# chamando a func p imprimir
 		
-		jal read
-		move $t1, $v0
+		jal read				# chamando a func p ler
+		move $t1, $v0			# setando t1 com o valor de retorno da read
 		
-		multu $t0, $t1
-		mflo $t2
+		multu $t0, $t1			# multiplica t0 * t1
+		mflo $t2				# recebe o valor multiplicado
 		
-		la $a0, p_area
-		jal print
+		la $a0, p_area			# carrega "\nA area e: "
+		jal print				# chamando a func p imprimir
 		
-		move $a0, $t2
-		jal print_i
+		move $a0, $t2			# set como parametro o valor da operação
+		jal print_i				# chamando a func p imprimir
 
-		la $a0, jump_line
+		la $a0, jump_line		# printa um pulo de linha
 		jal print
 
-		jal main
+		jal main				# volta pra main
 		
-	finish: 
-		li, $v0, 10
-		syscall 
+	finish: 					# funcao para finalizar o programa
+		li, $v0, 10				# carregamento imediato de 10 -> finalizando
+		syscall
